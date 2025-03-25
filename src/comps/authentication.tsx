@@ -23,7 +23,7 @@ import { TwitterButton } from './TwitterButton';
 
 export default function Auth(props: PaperProps) {
     const [type, toggle] = useToggle(['login', 'register']);
-    const navigate = useNavigate({ from: '/Auth' });
+    const navigate = useNavigate({ from: '/' });
     const form = useForm({
         initialValues: {
             email: '',

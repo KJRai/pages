@@ -1,16 +1,15 @@
-import React from 'react'
+
 import ReactDOM from 'react-dom/client'
 import { RouterProvider, createRouter } from '@tanstack/react-router'
 import { routeTree } from './routeTree.gen'
-import { rootRoute } from './routes/__root'
+import { AuthProvider, useAuth } from './context/AuthContext'
+import React from 'react'
 
-const router = createRouter({
-  routeTree: rootRoute,
+export const router = createRouter({
+  routeTree,
   context: {
-    products: [
-      { id: 1, name: 'DatGoodShiii', price: '50$' },
-      { id: 2, name: 'NotGudShiii', price: '25$' },
-    ],
+    auth: undefined!
+
   },
 });
 declare module '@tanstack/react-router' {
@@ -18,11 +17,24 @@ declare module '@tanstack/react-router' {
     router: typeof router
   }
 }
+function InnerApp() {
+  const auth = useAuth()
+  return <RouterProvider router={router} context={{ auth }} />
+}
 
+function App() {
+  return (
+    <AuthProvider>
+      <InnerApp />
+    </AuthProvider>
+  )
+}
 
 const rootElement = document.getElementById('app')!
 
 if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement)
-  root.render(<RouterProvider router={route} />)
+  root.render( <React.StrictMode>
+    <App />
+  </React.StrictMode>,)
 }

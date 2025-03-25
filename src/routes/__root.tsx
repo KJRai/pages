@@ -1,19 +1,18 @@
 import * as React from 'react';
-import { Link, Outlet, useLocation } from '@tanstack/react-router';
+import { Link, Outlet, useLocation, useRouter } from '@tanstack/react-router';
 import { TanStackRouterDevtools } from '@tanstack/router-devtools';
 import { createRouter, createRootRouteWithContext } from '@tanstack/react-router';
 
 
-type RouterContext = {
-  products: { id: number; name: string; price: string }[];
-};
-export const rootRoute = createRootRouteWithContext<RouterContext>()({
+interface RouterContext {
+}
+export const Route = createRootRouteWithContext<RouterContext>()({
   component: RootComponent,
 });
 
 
 function RootComponent() {
-  const location = useLocation();
+  const location = useRouter().state.location;
   const isAuthPage = location.pathname === "/Auth";
 
   return (
@@ -29,14 +28,14 @@ function RootComponent() {
                     className: 'font-bold',
                   }}
                   activeOptions={{ exact: true }}
-                  
+
                 >
-                  DashBoard
+                  Home
                 </Link>
               </li>
               <li>
-              <Link
-                  to="/products"
+                <Link
+                  to="/podcas"
                   activeProps={{
                     className: 'font-bold',
                   }}
@@ -50,14 +49,13 @@ function RootComponent() {
                   activeProps={{
                     className: 'font-bold',
                   }}
+                  activeOptions={{ exact: false }}
                 >
+                  
                 </Link>
               </li>
             </ul>
-            <Link 
-              to="/Auth"
-              className="font-bold mt-auto"
-            >
+            <Link to="/Auth" > 
               Logout
             </Link>
 
@@ -66,8 +64,8 @@ function RootComponent() {
         <div className="flex-1 flex justify-center items-center">
           <Outlet />
         </div>
-        <TanStackRouterDevtools position="bottom-right" />
       </div>
+        <TanStackRouterDevtools position="bottom-right" initialIsOpen={false} />
     </>
   )
 }

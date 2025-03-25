@@ -1,9 +1,8 @@
-import { router } from '../main';
-
+import data from '../data.json'
 
 
 const FeaturedProducts = () => {
-    const { products } = router.context; 
+    const products  = data ;
 
     return (
         <div className='flex flex-column justify-between gap-x-10 text-xl p-4 rounded-md bg-cyan-600'>

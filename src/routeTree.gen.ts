@@ -11,15 +11,16 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as ProductsImport } from './routes/products'
+import { Route as PodcasImport } from './routes/podcas'
 import { Route as AuthImport } from './routes/Auth'
 import { Route as IndexImport } from './routes/index'
+import { Route as PodcasPodcasidImport } from './routes/podcas.$podcasid'
 
 // Create/Update Routes
 
-const ProductsRoute = ProductsImport.update({
-  id: '/products',
-  path: '/products',
+const PodcasRoute = PodcasImport.update({
+  id: '/podcas',
+  path: '/podcas',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -33,6 +34,12 @@ const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRoute,
+} as any)
+
+const PodcasPodcasidRoute = PodcasPodcasidImport.update({
+  id: '/$podcasid',
+  path: '/$podcasid',
+  getParentRoute: () => PodcasRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -53,56 +60,77 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthImport
       parentRoute: typeof rootRoute
     }
-    '/products': {
-      id: '/products'
-      path: '/products'
-      fullPath: '/products'
-      preLoaderRoute: typeof ProductsImport
+    '/podcas': {
+      id: '/podcas'
+      path: '/podcas'
+      fullPath: '/podcas'
+      preLoaderRoute: typeof PodcasImport
       parentRoute: typeof rootRoute
+    }
+    '/podcas/$podcasid': {
+      id: '/podcas/$podcasid'
+      path: '/$podcasid'
+      fullPath: '/podcas/$podcasid'
+      preLoaderRoute: typeof PodcasPodcasidImport
+      parentRoute: typeof PodcasImport
     }
   }
 }
 
 // Create and export the route tree
 
+interface PodcasRouteChildren {
+  PodcasPodcasidRoute: typeof PodcasPodcasidRoute
+}
+
+const PodcasRouteChildren: PodcasRouteChildren = {
+  PodcasPodcasidRoute: PodcasPodcasidRoute,
+}
+
+const PodcasRouteWithChildren =
+  PodcasRoute._addFileChildren(PodcasRouteChildren)
+
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/Auth': typeof AuthRoute
-  '/products': typeof ProductsRoute
+  '/podcas': typeof PodcasRouteWithChildren
+  '/podcas/$podcasid': typeof PodcasPodcasidRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/Auth': typeof AuthRoute
-  '/products': typeof ProductsRoute
+  '/podcas': typeof PodcasRouteWithChildren
+  '/podcas/$podcasid': typeof PodcasPodcasidRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/Auth': typeof AuthRoute
-  '/products': typeof ProductsRoute
+  '/podcas': typeof PodcasRouteWithChildren
+  '/podcas/$podcasid': typeof PodcasPodcasidRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/Auth' | '/products'
+  fullPaths: '/' | '/Auth' | '/podcas' | '/podcas/$podcasid'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/Auth' | '/products'
-  id: '__root__' | '/' | '/Auth' | '/products'
+  to: '/' | '/Auth' | '/podcas' | '/podcas/$podcasid'
+  id: '__root__' | '/' | '/Auth' | '/podcas' | '/podcas/$podcasid'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRoute: typeof AuthRoute
-  ProductsRoute: typeof ProductsRoute
+  PodcasRoute: typeof PodcasRouteWithChildren
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRoute,
-  ProductsRoute: ProductsRoute,
+  PodcasRoute: PodcasRouteWithChildren,
 }
 
 export const routeTree = rootRoute
@@ -117,7 +145,7 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/Auth",
-        "/products"
+        "/podcas"
       ]
     },
     "/": {
@@ -126,8 +154,15 @@ export const routeTree = rootRoute
     "/Auth": {
       "filePath": "Auth.tsx"
     },
-    "/products": {
-      "filePath": "products.tsx"
+    "/podcas": {
+      "filePath": "podcas.tsx",
+      "children": [
+        "/podcas/$podcasid"
+      ]
+    },
+    "/podcas/$podcasid": {
+      "filePath": "podcas.$podcasid.tsx",
+      "parent": "/podcas"
     }
   }
 }
