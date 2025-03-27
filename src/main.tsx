@@ -5,11 +5,14 @@ import { routeTree } from './routeTree.gen'
 import { AuthProvider, useAuth } from './context/AuthContext'
 import React from 'react'
 
+
+type RouterContextType = {
+  isAuthenticated: boolean;
+}
 export const router = createRouter({
   routeTree,
-  context: {
-    auth: undefined!
-
+  context: { 
+    auth: undefined!,
   },
 });
 declare module '@tanstack/react-router' {
@@ -34,7 +37,7 @@ const rootElement = document.getElementById('app')!
 
 if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement)
-  root.render( <React.StrictMode>
+  root.render(<React.StrictMode>
     <App />
   </React.StrictMode>,)
 }

@@ -1,6 +1,4 @@
 import '@mantine/core/styles.css';
-import { useNavigate } from '@tanstack/react-router';
-
 import {
     MantineProvider,
     Center,
@@ -13,17 +11,17 @@ import {
     Checkbox,
     Anchor,
     Button,
-    Divider,
-    PaperProps
+    Divider
 } from '@mantine/core';
-import { useForm } from '@mantine/form';
+import { isEmail, useForm } from '@mantine/form';
 import { upperFirst, useToggle } from '@mantine/hooks';
 import { GoogleButton } from './GoogleButton';
 import { TwitterButton } from './TwitterButton';
+import { useAuth } from '../context/AuthContext';
+import { useNavigate, useSearch } from "@tanstack/react-router";
 
-export default function Auth(props: PaperProps) {
+export default function Auth() {
     const [type, toggle] = useToggle(['login', 'register']);
-    const navigate = useNavigate({ from: '/' });
     const form = useForm({
         initialValues: {
             email: '',
@@ -37,10 +35,22 @@ export default function Auth(props: PaperProps) {
         },
     });
 
+    const { isAuthenticated  } = useAuth();
+    const navigate = useNavigate(); 
+    type FormValues = typeof form.values;
+    const handleSubmit = (event: React.FormEvent, values: FormValues) => {
+        return(console.log(values)
+        //    !isAuthenticated,
+        //    navigate({to:"/"}))
+
+
+        //auth context ko value lai access ani isAuthenditacated true
+        // nagivate function to="/"
+    )};
     return (
         <MantineProvider>
             <Center style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-                <Paper radius="md" p="xl" w={400} withBorder {...props}>
+                <Paper radius="md" p="xl" w={400} withBorder>
                     <Text size="lg" fw={500} >
                         Welcome to Mantine, {type} with
                     </Text>
@@ -52,7 +62,7 @@ export default function Auth(props: PaperProps) {
 
                     <Divider label="Or continue with email" labelPosition="center" my="lg" />
 
-                    <form onSubmit={() => navigate({ to: '/' })} >
+                    <form onSubmit={handleSubmit} >
                         <Stack>
                             {type === 'register' && (
                                 <TextInput
@@ -96,7 +106,7 @@ export default function Auth(props: PaperProps) {
                             <Anchor component="button" type="button" c="dimmed" onClick={() => toggle()} size="xs">
                                 {type === 'register' ? 'Already have an account? Login' : "Don't have an account? Register"}
                             </Anchor>
-                            <Button type="submit" radius="xl">
+                            <Button type="submit" radius="xl" >
                                 {upperFirst(type)}
                             </Button>
                         </Group>
@@ -105,4 +115,4 @@ export default function Auth(props: PaperProps) {
             </Center>
         </MantineProvider>
     );
-}
+    }

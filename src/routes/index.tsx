@@ -1,7 +1,17 @@
-import * as React from 'react'
-import { createFileRoute, lazyRouteComponent } from '@tanstack/react-router'
+import { createFileRoute, redirect } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/')({
+  beforeLoad: ({ context, location }) => {
+  console.log(context)
+    if (!context.auth.isAuthenticated) {
+      throw redirect({
+        to: '/Auth',
+        search: {
+          redirect: location.href,
+        },
+      });
+    }
+  },
   component: RouteComponent,
 })
 
