@@ -13,13 +13,13 @@ import {
     Button,
     Divider
 } from '@mantine/core';
-import { isEmail, useForm } from '@mantine/form';
+import { useForm } from '@mantine/form';
 import { upperFirst, useToggle } from '@mantine/hooks';
 import { GoogleButton } from './GoogleButton';
 import { TwitterButton } from './TwitterButton';
 import { useAuth } from '../context/AuthContext';
-import { useNavigate, useSearch } from "@tanstack/react-router";
-
+import { useNavigate } from "@tanstack/react-router";
+import { useEffect, useState } from 'react';
 export default function Auth() {
     const [type, toggle] = useToggle(['login', 'register']);
     const form = useForm({
@@ -35,18 +35,26 @@ export default function Auth() {
         },
     });
 
-    const { isAuthenticated  } = useAuth();
-    const navigate = useNavigate(); 
-    type FormValues = typeof form.values;
-    const handleSubmit = (event: React.FormEvent, values: FormValues) => {
-        return(console.log(values)
-        //    !isAuthenticated,
-        //    navigate({to:"/"}))
-
-
-        //auth context ko value lai access ani isAuthenditacated true
-        // nagivate function to="/"
-    )};
+    const { login, isAuthenticated } = useAuth();
+    const navigate = useNavigate();
+    const [username, setUsername] = useState('');
+    const [error, setError] = useState('');
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        try {
+            const email = form.values.email;
+            await login(email);
+            navigate({ to: "/" });
+        }
+        catch (error) { }
+        console.log("error");
+        setError("Login Failed")
+    };
+    useEffect(() => {
+        if (isAuthenticated) {
+            console.log("Redirecting to home...");
+            navigate({ to: "/" });
+        }
+    }, [isAuthenticated]);
     return (
         <MantineProvider>
             <Center style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
@@ -115,4 +123,4 @@ export default function Auth() {
             </Center>
         </MantineProvider>
     );
-    }
+}

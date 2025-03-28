@@ -21,12 +21,14 @@
   },
   "dependencies": {
     "@mantine/core": "^7.17.1",
+    "@mantine/form": "^7.17.3",
     "@mantine/hooks": "^7.17.1",
     "@mantine/notifications": "^7.17.1",
     "@mantinex/dev-icons": "^1.1.0",
     "@tanstack/react-router": "^1.114.29",
     "@tanstack/router-devtools": "^1.112.18",
     "axios": "^1.8.2",
+    "pages": "^0.0.16",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.4.0"

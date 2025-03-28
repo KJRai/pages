@@ -35,7 +35,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [])
 
   const login = React.useCallback(async (username: string) => {
-
+    if (!username) {
+      throw new Error("username empty");
+    }
     setStoredUser(username)
     setUser(username)
   }, [])
@@ -43,7 +45,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   React.useEffect(() => {
     setUser(getStoredUser())
   }, [])
-
+  React.useEffect(()=>{
+    console.log(user);
+    console.log(isAuthenticated);
+  })
   return (
     <AuthContext.Provider value={{ isAuthenticated, user, login, logout }}>
       {children}
