@@ -46,12 +46,10 @@ export default function Auth() {
             navigate({ to: "/" });
         }
         catch (error) { }
-        console.log("error");
         setError("Login Failed")
     };
     useEffect(() => {
         if (isAuthenticated) {
-            console.log("Redirecting to home...");
             navigate({ to: "/" });
         }
     }, [isAuthenticated]);
