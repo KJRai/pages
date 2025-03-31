@@ -13,8 +13,8 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as AuthImport } from './routes/Auth'
 import { Route as IndexImport } from './routes/index'
-import { Route as PodcasIndexImport } from './routes/podcas/index'
-import { Route as PodcasIdIndexImport } from './routes/podcas/$id/index'
+import { Route as ProductIndexImport } from './routes/product/index'
+import { Route as ProductIdIndexImport } from './routes/product/$id/index'
 
 // Create/Update Routes
 
@@ -30,15 +30,15 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const PodcasIndexRoute = PodcasIndexImport.update({
-  id: '/podcas/',
-  path: '/podcas/',
+const ProductIndexRoute = ProductIndexImport.update({
+  id: '/product/',
+  path: '/product/',
   getParentRoute: () => rootRoute,
 } as any)
 
-const PodcasIdIndexRoute = PodcasIdIndexImport.update({
-  id: '/podcas/$id/',
-  path: '/podcas/$id/',
+const ProductIdIndexRoute = ProductIdIndexImport.update({
+  id: '/product/$id/',
+  path: '/product/$id/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -60,18 +60,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthImport
       parentRoute: typeof rootRoute
     }
-    '/podcas/': {
-      id: '/podcas/'
-      path: '/podcas'
-      fullPath: '/podcas'
-      preLoaderRoute: typeof PodcasIndexImport
+    '/product/': {
+      id: '/product/'
+      path: '/product'
+      fullPath: '/product'
+      preLoaderRoute: typeof ProductIndexImport
       parentRoute: typeof rootRoute
     }
-    '/podcas/$id/': {
-      id: '/podcas/$id/'
-      path: '/podcas/$id'
-      fullPath: '/podcas/$id'
-      preLoaderRoute: typeof PodcasIdIndexImport
+    '/product/$id/': {
+      id: '/product/$id/'
+      path: '/product/$id'
+      fullPath: '/product/$id'
+      preLoaderRoute: typeof ProductIdIndexImport
       parentRoute: typeof rootRoute
     }
   }
@@ -82,46 +82,46 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/Auth': typeof AuthRoute
-  '/podcas': typeof PodcasIndexRoute
-  '/podcas/$id': typeof PodcasIdIndexRoute
+  '/product': typeof ProductIndexRoute
+  '/product/$id': typeof ProductIdIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/Auth': typeof AuthRoute
-  '/podcas': typeof PodcasIndexRoute
-  '/podcas/$id': typeof PodcasIdIndexRoute
+  '/product': typeof ProductIndexRoute
+  '/product/$id': typeof ProductIdIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/Auth': typeof AuthRoute
-  '/podcas/': typeof PodcasIndexRoute
-  '/podcas/$id/': typeof PodcasIdIndexRoute
+  '/product/': typeof ProductIndexRoute
+  '/product/$id/': typeof ProductIdIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/Auth' | '/podcas' | '/podcas/$id'
+  fullPaths: '/' | '/Auth' | '/product' | '/product/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/Auth' | '/podcas' | '/podcas/$id'
-  id: '__root__' | '/' | '/Auth' | '/podcas/' | '/podcas/$id/'
+  to: '/' | '/Auth' | '/product' | '/product/$id'
+  id: '__root__' | '/' | '/Auth' | '/product/' | '/product/$id/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRoute: typeof AuthRoute
-  PodcasIndexRoute: typeof PodcasIndexRoute
-  PodcasIdIndexRoute: typeof PodcasIdIndexRoute
+  ProductIndexRoute: typeof ProductIndexRoute
+  ProductIdIndexRoute: typeof ProductIdIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRoute,
-  PodcasIndexRoute: PodcasIndexRoute,
-  PodcasIdIndexRoute: PodcasIdIndexRoute,
+  ProductIndexRoute: ProductIndexRoute,
+  ProductIdIndexRoute: ProductIdIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -136,8 +136,8 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/Auth",
-        "/podcas/",
-        "/podcas/$id/"
+        "/product/",
+        "/product/$id/"
       ]
     },
     "/": {
@@ -146,11 +146,11 @@ export const routeTree = rootRoute
     "/Auth": {
       "filePath": "Auth.tsx"
     },
-    "/podcas/": {
-      "filePath": "podcas/index.tsx"
+    "/product/": {
+      "filePath": "product/index.tsx"
     },
-    "/podcas/$id/": {
-      "filePath": "podcas/$id/index.tsx"
+    "/product/$id/": {
+      "filePath": "product/$id/index.tsx"
     }
   }
 }

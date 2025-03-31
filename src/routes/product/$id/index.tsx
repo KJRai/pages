@@ -3,7 +3,7 @@ import data from "../../../data.json"
 import NotFound from "../../../comps/notFound"
 import FeaturedProducts from '../../../comps/Products'
 
-export const Route = createFileRoute('/podcas/$id/')({
+export const Route = createFileRoute('/product/$id/')({
     loader: ({ params }) => {
         const podcasId = parseInt(params.id, 10);
         const pod = data.find((p) => p.id === podcasId);

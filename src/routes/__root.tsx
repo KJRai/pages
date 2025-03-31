@@ -1,6 +1,5 @@
-import { Link, Outlet, useRouter, useNavigate } from '@tanstack/react-router';
+import { Link, Outlet, useRouter, useNavigate,createRootRouteWithContext } from '@tanstack/react-router';
 import { TanStackRouterDevtools } from '@tanstack/router-devtools';
-import { createRootRouteWithContext } from '@tanstack/react-router';
 import { AuthContext } from '../context/AuthContext';
 import { useAuth } from '../context/AuthContext';
 
@@ -17,7 +16,6 @@ function RootComponent() {
   const location = useRouter().state.location;
   const navigate = useNavigate();
   const { isAuthenticated, logout } = useAuth(); 
-  const isAuthPage = location.pathname === "/Auth";
 
   const handleLogout = async ()=> {
     await logout();
@@ -49,7 +47,7 @@ function RootComponent() {
               </li>
               <li>
                 <Link
-                  to="/podcas"
+                  to="/product"
                   activeProps={{
                     className: 'font-bold',
                   }}

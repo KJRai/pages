@@ -1,4 +1,6 @@
 import '@mantine/core/styles.css';
+import { zodResolver } from '@mantine/form';
+import { z } from 'zod';
 import {
     MantineProvider,
     Center,
@@ -22,6 +24,18 @@ import { useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from 'react';
 export default function Auth() {
     const [type, toggle] = useToggle(['login', 'register']);
+    const schema = z.object({
+        name: z
+            .string()
+            .min(2, { message: 'Name should have at least 2 letters.' }),
+        email: z.string().email({ message: 'Invalid email.' }),
+        password: z.string().min(6, {
+            message: 'Password should include at least 6 characters.'}),
+        terms: z.boolean().refine(val => val === true, {
+                message: 'You must accept the terms.',
+            })    
+        ,
+    })
     const form = useForm({
         initialValues: {
             email: '',
@@ -29,15 +43,11 @@ export default function Auth() {
             password: '',
             terms: true,
         },
-        validate: {
-            email: (val) => (/^\S+@\S+$/.test(val) ? null : 'Invalid email'),
-            password: (val) => (val.length <= 6 ? 'Password should include at least 6 characters' : null),
-        },
+        validate: zodResolver(schema),
     });
 
     const { login, isAuthenticated } = useAuth();
     const navigate = useNavigate();
-    const [username, setUsername] = useState('');
     const [error, setError] = useState('');
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         try {
