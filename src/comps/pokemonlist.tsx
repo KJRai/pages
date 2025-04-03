@@ -1,4 +1,3 @@
-import * as React from "react"
 import PokemonCard from "./PokemonCard"
 import ButtonGroup from "./ButtonGroup"
 import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query'

@@ -45,10 +45,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   React.useEffect(() => {
     setUser(getStoredUser())
   }, [])
-  React.useEffect(()=>{
-    console.log(user);
-    console.log(isAuthenticated);
-  })
+
   return (
     <AuthContext.Provider value={{ isAuthenticated, user, login, logout }}>
       {children}
