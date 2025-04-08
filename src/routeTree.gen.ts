@@ -11,6 +11,7 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as PoklistImport } from './routes/poklist'
 import { Route as PokemonImport } from './routes/pokemon'
 import { Route as AuthImport } from './routes/Auth'
 import { Route as IndexImport } from './routes/index'
@@ -18,6 +19,12 @@ import { Route as ProductIndexImport } from './routes/product/index'
 import { Route as ProductIdIndexImport } from './routes/product/$id/index'
 
 // Create/Update Routes
+
+const PoklistRoute = PoklistImport.update({
+  id: '/poklist',
+  path: '/poklist',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const PokemonRoute = PokemonImport.update({
   id: '/pokemon',
@@ -74,6 +81,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PokemonImport
       parentRoute: typeof rootRoute
     }
+    '/poklist': {
+      id: '/poklist'
+      path: '/poklist'
+      fullPath: '/poklist'
+      preLoaderRoute: typeof PoklistImport
+      parentRoute: typeof rootRoute
+    }
     '/product/': {
       id: '/product/'
       path: '/product'
@@ -97,6 +111,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/Auth': typeof AuthRoute
   '/pokemon': typeof PokemonRoute
+  '/poklist': typeof PoklistRoute
   '/product': typeof ProductIndexRoute
   '/product/$id': typeof ProductIdIndexRoute
 }
@@ -105,6 +120,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/Auth': typeof AuthRoute
   '/pokemon': typeof PokemonRoute
+  '/poklist': typeof PoklistRoute
   '/product': typeof ProductIndexRoute
   '/product/$id': typeof ProductIdIndexRoute
 }
@@ -114,16 +130,30 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/Auth': typeof AuthRoute
   '/pokemon': typeof PokemonRoute
+  '/poklist': typeof PoklistRoute
   '/product/': typeof ProductIndexRoute
   '/product/$id/': typeof ProductIdIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/Auth' | '/pokemon' | '/product' | '/product/$id'
+  fullPaths:
+    | '/'
+    | '/Auth'
+    | '/pokemon'
+    | '/poklist'
+    | '/product'
+    | '/product/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/Auth' | '/pokemon' | '/product' | '/product/$id'
-  id: '__root__' | '/' | '/Auth' | '/pokemon' | '/product/' | '/product/$id/'
+  to: '/' | '/Auth' | '/pokemon' | '/poklist' | '/product' | '/product/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/Auth'
+    | '/pokemon'
+    | '/poklist'
+    | '/product/'
+    | '/product/$id/'
   fileRoutesById: FileRoutesById
 }
 
@@ -131,6 +161,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRoute: typeof AuthRoute
   PokemonRoute: typeof PokemonRoute
+  PoklistRoute: typeof PoklistRoute
   ProductIndexRoute: typeof ProductIndexRoute
   ProductIdIndexRoute: typeof ProductIdIndexRoute
 }
@@ -139,6 +170,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRoute,
   PokemonRoute: PokemonRoute,
+  PoklistRoute: PoklistRoute,
   ProductIndexRoute: ProductIndexRoute,
   ProductIdIndexRoute: ProductIdIndexRoute,
 }
@@ -156,6 +188,7 @@ export const routeTree = rootRoute
         "/",
         "/Auth",
         "/pokemon",
+        "/poklist",
         "/product/",
         "/product/$id/"
       ]
@@ -168,6 +201,9 @@ export const routeTree = rootRoute
     },
     "/pokemon": {
       "filePath": "pokemon.tsx"
+    },
+    "/poklist": {
+      "filePath": "poklist.tsx"
     },
     "/product/": {
       "filePath": "product/index.tsx"
